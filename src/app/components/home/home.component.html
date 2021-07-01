@@ -1,0 +1,32 @@
+
+<div class="flex flex-wrap sm:justify-center sm:mt-4 sm:space-x-4" *ngIf="stats | async as lStats">
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[3].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">Knights</span>
+    </div>
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[4].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">Verified</span>
+    </div>
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[0].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">Gas burned</span>
+    </div>
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[1].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">Gas distributed</span>
+    </div>
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[2].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">Gas withdrawn</span>
+    </div>
+    <div class="stats rounded-xl py-3 px-6 m-1 bg-gray-700 shadow-md">
+        <span class="block font-semibold text-2xl">{{lStats[6].value | number}}</span>
+        <span class="block tracking-wide uppercase text-xs">open for action</span>
+    </div>
+</div>
+<div class="mt-12 sm:flex sm:justify-center">
+    <app-knights [knights]="knights"></app-knights>
+</div>
+
+

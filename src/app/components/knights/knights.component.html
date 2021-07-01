@@ -1,0 +1,39 @@
+
+<div class="knights mt-12 mb-0 w-full text-left">
+    <div class="block tracking-wide uppercase text-xs" *ngIf="knights[0]; else offline">strength</div>
+    <ng-template #offline>
+        <span class="block tracking-wide uppercase text-xs perkGradientG">no data</span>
+    </ng-template>
+</div>
+<div class="flex flex-wrap mb-4"  *ngFor="let knight of knights;let i = index">
+
+    <div class="knights justify-between w-1/5 sm:w-32 h-32">
+        <div class="block font-semibold text-2xl">{{knight[3].value}}</div>
+    </div>
+
+    <div class="knights relative text-left mx-auto bg-gray-700  w-4/5 shadow-md sm:w-64 h-80 p-4">
+        <div class="font-semibold text-2xl">{{knight[0].value}}</div>
+        <div class="left-0 tracking-wide uppercase text-xs">reddit name <a class="hover:underline hover:text-green-400 focus:text-green-400" href="https://www.reddit.com/user/{{knight[0].value}}/" target="_blank">(profile)</a></div>
+        <div class="font-semibold text-2xl pt-1">{{knight[5].value | number}}</div>
+        <div class="left-0 tracking-wide uppercase text-xs">gas for withdrawal</div>
+        <div class="absolute bottom-0 left-0 p-4 w-full">
+            <div class="text-xs break-all">{{knight[4].value == '' ? '-' : knight[4].value}}</div>
+            <div class="left-0 pl-1 tracking-wide uppercase text-xs perkGradientR" *ngIf="knight[4].value == ''">verified</div>
+            <div class="left-0 pl-1 tracking-wide uppercase text-xs perkGradientG" *ngIf="knight[4].value != ''">verified</div>
+            <span class="block font-semibold text-lg mt-1">{{knight[6].value | date:'short'}}</span>
+            <div *ngIf="knight[6].value > getDateNow() || knight[4].value == ''; else openAction">
+                <span class="block pl-1 tracking-wide uppercase text-xs perkGradientR">action</span>
+            </div>
+            <ng-template #openAction>
+                <span class="block pl-1 tracking-wide uppercase text-xs perkGradientG">action</span>
+            </ng-template>
+            <span class="block font-semibold text-lg mt-1">{{knight[2].value | date:'short'}}</span>
+            <div *ngIf="knight[2].value > getDateNow() || knight[4].value == ''; else openUpdate">
+                <span class="block pl-1 tracking-wide uppercase text-xs perkGradientR">update</span>
+            </div>
+            <ng-template #openUpdate>
+                <span class="block pl-1 tracking-wide uppercase text-xs perkGradientG">update</span>
+            </ng-template>
+        </div>
+    </div>
+</div>
