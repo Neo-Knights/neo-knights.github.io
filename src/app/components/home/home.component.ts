@@ -3,8 +3,7 @@ import { BlockchainService } from 'src/app/services/blockchain.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
   stats: Promise<any>;
@@ -19,7 +18,6 @@ export class HomeComponent implements OnInit {
   }
   async getStats(){
     this.stats =  this.blockchainService.getStats();
-    console.log(this.stats);
   }
   async getAllKnights(){
     this.tokens = this.blockchainService.getAllKnights();
@@ -29,7 +27,7 @@ export class HomeComponent implements OnInit {
         .then((data) => {
           this.knights.push(data);
           this.knights.sort((a,b) => b[3].value - a[3].value);
-          console.log(data);
+          //ToDo: Show numbers > 0 with more than 3 dec places as "< 0.001" 
         });
     });
   }

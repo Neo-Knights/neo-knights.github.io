@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-knights',
-  templateUrl: './knights.component.html',
-  styleUrls: ['./knights.component.css']
+  templateUrl: './knights.component.html'
 })
 export class KnightsComponent implements OnInit {
 

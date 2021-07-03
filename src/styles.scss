@@ -14,9 +14,10 @@ html, body {
     background: radial-gradient(
       circle closest-corner at center 10px,
       $green-800,
-      $gray-800 200%
+      $gray-800 300%
     );
     text-align: center;
+    //ToDo: Make fixed on mobile
     z-index: 0;
   }
   .perkGradientG {
@@ -41,6 +42,9 @@ html, body {
     position: relative;
     z-index: 10;
   }
+  .logo {
+    z-index: 12;
+  }
   .knights {
     position: relative;
     z-index: 11;
@@ -50,6 +54,7 @@ html, body {
     z-index: 0;
   }
   .inset-center {
+    //ToDo: Make fixed on mobile
     position: absolute;
     top: 275px;
     left: 50%;

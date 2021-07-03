@@ -14,6 +14,7 @@ export class BlockchainService implements BlockchainInterface{
   rpc = Neon.rpc;
   sc = Neon.sc;
   //rpcClient = new Neon.rpc.RPCClient("http://127.0.0.1:50012");
+  //ToDo: Load balancing of rpc nodes
   rpcClient = new Neon.rpc.RPCClient("https://testnet2.neo.coz.io:443");
 
   constructor() {
