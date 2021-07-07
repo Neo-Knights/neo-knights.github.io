@@ -5,7 +5,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { KnightsComponent } from './components/knights/knights.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './header/header/header.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ExplainComponent } from './components/explain/explain.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -13,10 +15,12 @@ import { HeaderComponent } from './header/header/header.component';
     HomeComponent,
     KnightsComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    ExplainComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

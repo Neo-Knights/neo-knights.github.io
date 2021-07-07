@@ -1,10 +1,7 @@
 <div class="flex flex-col h-screen text-white mainGradient">
   <header><app-header></app-header></header>
   <main class="p-4 flex-grow">
-    <div class="n3Background">
-      <img class="inset-center w-64 h-64" src="assets/img/N3Logo-dark.svg" />
-    </div>
-    <app-home></app-home>
+    <router-outlet></router-outlet>
   </main>
   <footer class="p-4"><app-footer></app-footer></footer>
 </div>
