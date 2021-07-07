@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-explain',
-  templateUrl: './explain.component.html',
-  styleUrls: ['./explain.component.scss']
+  templateUrl: './explain.component.html'
 })
 export class ExplainComponent implements OnInit {
 
