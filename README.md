@@ -1,6 +1,6 @@
 # Neo Knights
 
-Frontend for Neo-Knights app, build with Angular.
+Frontend for Neo-Knights app, built with Angular.
 
 ## Development server
 
