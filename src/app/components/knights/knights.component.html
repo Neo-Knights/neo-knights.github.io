@@ -28,7 +28,7 @@
                 <div class="pl-1 tracking-wide uppercase text-xs perkGradientG">action</div>
             </ng-template>
             <div class="font-semibold text-lg mt-1">{{knight[2].value | date:'short'}}</div>
-            <div *ngIf="knight[2].value > getDateNow() || knight[4].value == ''; else openUpdate">
+            <div *ngIf="knight[2].value > getDateNow(); else openUpdate">
                 <div class="pl-1 tracking-wide uppercase text-xs perkGradientR">update</div>
             </div>
             <ng-template #openUpdate>
