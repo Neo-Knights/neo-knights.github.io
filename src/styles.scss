@@ -4,17 +4,57 @@
 @import '_colors.scss';
   
 html, body {
-  background: $gray-800;
+  background: $n-gray-400;
 } 
 
   footer {
     text-align: center;
   }
+  .lead1 {
+    background-color: $n-gray-100;
+    color: $n-blue-100;
+  }
+  .lead2 {
+    background-color: $n-blue-100;
+    color: $n-gray-100;
+  }
+  .lead3 {
+    background-color: $n-gray-300;
+    color: $n-blue-100;
+  }
+  .glow {
+    text-align: center;
+    -webkit-animation: glow 10s ease-in infinite alternate;
+    -moz-animation: glow 10s ease-in infinite alternate;
+    animation: glow 10s ease-in infinite alternate;
+  }
+  .glow2 {
+    text-align: center;
+    -webkit-animation: glow2 10s ease-in infinite alternate;
+    -moz-animation: glow2 10s ease-in infinite alternate;
+    animation: glow2 10s ease-in infinite alternate;
+  }
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 0 0 $n-gray-400;
+    }
+    to {
+      text-shadow: 0 0 10px $n-gray-100, 0 0 20px $n-green-100, 0 0 30px $n-green-200;
+    }
+  }
+  @keyframes glow2 {
+    from {
+      box-shadow: 0 0 0 0 $n-gray-400;
+    }
+    to {
+      box-shadow: 0 0 10px $n-gray-100, 0 0 20px $n-green-100, 0 0 30px $n-green-200;
+    }
+  }
   .mainGradient {
     background: radial-gradient(
-      circle closest-corner at center 10px,
-      $green-800,
-      $gray-800 300%
+      circle closest-corner at center -30px,
+      $n-green-200,
+      $n-gray-400 300%
     );
     text-align: center;
     //ToDo: Make fixed on mobile
@@ -50,19 +90,27 @@ html, body {
     z-index: 11;
   }
   .primary {
-    background: $gray-800
+    background: $n-gray-400
+  }
+  .secondary {
+    background: $n-gray-200
   }
   .header {
-    background: $gray-900
+    background: $n-gray-400
   }
-
+  .primaryText {
+    color: $n-gray-100
+  }
+  .secondaryText {
+    color: $n-blue-100
+  }
   @media (min-width: 640px) {
     .mainGradient {
-        background-color: $gray-800;
+        background-color: $n-gray-400;
         background: radial-gradient(
-          circle closest-corner at center -20px,
-          $green-800,
-          $gray-800 60%
+          circle closest-corner at center -100px,
+          $n-green-200,
+          $n-gray-400 60%
         ) no-repeat;
         text-align: center;
       }

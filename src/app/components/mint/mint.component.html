@@ -1,0 +1,90 @@
+
+<div class="grid grid-flow-row grid-rows-8 md:grid-rows-6 md:grid-flow-col md:grid-cols-2 gap-2 md:gap-0 mt-16 md:container">
+    <div class="">
+        <p class="font-black text-5xl tracking-wide uppercase leading-snug md:leading-relaxed md:text-7xl md:text-right md:mr-8">Neo Knights</p>
+    </div>
+    <div class="row-start-7 row-span-2 md:row-span-5">
+        <div class="mx-auto mb-4 sm:justify-center sm:w-1/2">
+            <app-knight *ngIf="knightExists" class="glow2" [knight]="knightExists" [labels]="true" [glow]="true"></app-knight>
+            <img *ngIf="knightExists == null" class="opacity-40 glow2" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9Jy01IC01IDE1NSAxODAnIHN0eWxlPSdiYWNrZ3JvdW5kLWNvbG9yOiMyNDI0MjQnPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuYiB7CiAgICAgICAgbWl4LWJsZW5kLW1vZGU6IG11bHRpcGx5CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIHN0eWxlPSdpc29sYXRpb246aXNvbGF0ZSc+CiAgICA8ZyBpZD0nNCcgZGF0YS1uYW1lPSc0Jz4KICAgICAgPHBhdGggZmlsbD0nIzYwNmY3YicgZD0nTTMyLjI0IDYxLjc2djgwLjNsNTIuMiAxOC43di04MWw1Ni4zLTIwLjctNTEuMS0xOC4zLTU3LjQgMjF6JyAvPgogICAgICA8cGF0aCBmaWxsPScjM2Q0ODUyJyBkPSdNODguNjQgODIuNzZ2NDMuM2w1Mi4xIDE4LjZ2LTgxLjJsLTUyLjEgMTkuM3onIC8+CiAgICAgIDxwYXRoIGZpbGw9JyMzZDQ4NTInCiAgICAgICAgZD0nTTgyLjkzIDQ2LjU4TDU0IDM1LjEzbC0uODggMzEuMTQtMzMuMzkgMi44Nkw1MiAxMDQuNDhsNjEuMDctNDAuMjdhNy42IDcuNiAwIDAwMi43NC05LjQ4TDk4LjcgMTcuMDZ6JwogICAgICAgIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0xOS43MyAtMTcuMDYpJyAvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+" />
+        </div>
+   </div>
+    <div class="row-span-3 md:row-span-6">
+        <div class="sm:flex sm:justify-center">
+            <div class="p-1 text-xs w-full lead1 shadow-lg text-gray-800 rounded-sm" [formGroup]="urlForm" novalidate >
+                <div class="lead1 text-4xl md:text-6xl font-black tracking-wide p-2 uppercase">
+                    <span class="">Mint</span>
+                </div>        
+                <div class="mb-4 px-4">
+                    <label class="text-left block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        Reddit link
+                    </label>
+                    <input formControlName="url" class="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="https://www.reddit.com/r/NEO/comments/pt95xh/weekly_discussion_september_22nd_september_29th/">   
+                    <div *ngIf="m.url.valid" class="mt-1 flex items-center bg-blue-700 text-white text-sm px-2 py-1" >
+                        <svg class="fill-current w-8 h-8 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
+                        <p>Please make sure that the ID is correct by validating that the parameter 'URL' points to the correct reddit post</p>
+                    </div>
+                    <div *ngIf="m.url.touched && m.url.invalid" class="mt-1 flex items-center bg-blue-700 text-white text-sm px-2 py-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                        <p *ngIf="m.url.errors?.required">Please provide url</p>
+                        <p *ngIf="m.url.errors?.pattern">Please provide valid url</p>
+                    </div>
+                </div>
+                <div class="mb-4 px-4 text-left">
+                    <div class="text-left block uppercase tracking-wide text-gray-700  font-bold mb-2">
+                        Parameter
+                    </div>
+                    <div class="mt-1 bg-gray-100 text-left appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        ID: <span *ngIf="m.url.valid">{{redditId}}</span>
+                    </div>
+                    <div class="flex mt-1 mb-1 bg-gray-100 text-left appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <div class="my-auto pr-1">
+                            URL: 
+                        </div>
+                        <div class="my-auto mr-1" *ngIf="m.url.valid">
+                            {{redditUrl}}
+                        </div>
+                        <div class="my-auto" *ngIf="m.url.valid">
+                            <a href="{{redditUrl}}" target="_blank}"><svg *ngIf="m.url.valid" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg></a>
+                        </div>
+                    </div>
+                    <button type="button" [ngClass]="validateResult == true ? 'bg-green-600' : 'bg-gray-600 hover:bg-gray-500'" *ngIf="m.url.valid" class="text-white font-bold py-2 px-4 rounded-sm" (click)="validate(redditId)">Validate</button>
+                    <button type="button" *ngIf="!m.url.valid" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-sm cursor-not-allowed" >Validate</button>
+                    <span class="ml-2">{{validateResultText}}</span>
+                </div>
+                <div class="mb-4 px-4 text-left">
+                    <div class="text-left block uppercase tracking-wide text-gray-700  font-bold mb-2">
+                        Price
+                    </div>
+                    <div>0 GAS excl. fees</div>
+                </div>
+                <div class="mb-4 mx-4 border-t"></div>
+                <div class="mb-4 px-4">
+                    <button type="button" *ngIf="!account; else connected" class="lead2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm" (click)="connect()">Connect Neoline</button>
+                    <ng-template #connected>
+                        <button type="button" class="lead2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm">Connected</button>
+                    </ng-template>
+                    <div *ngIf="account" class="sm:flex block mt-1">Connected: {{this.account.label}} - {{this.account.address}}</div>
+                </div>
+                <div class="mb-4 mx-4 border-t"></div>
+                <div class="mb-4 px-4">
+                    <button type="submit" *ngIf="account && m.url.valid && validateResult; else noMint" class="lead2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm" (click)="mint(redditId)">Mint</button>
+                    <ng-template #noMint>
+                        <button type="button" class="lead2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm cursor-not-allowed">Mint</button>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+

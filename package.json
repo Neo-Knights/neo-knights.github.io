@@ -22,6 +22,7 @@
     "@cityofzion/neon-js": "^5.0.0-next.11",
     "@tailwindcss/typography": "^0.4.1",
     "loglevel": "^1.6.3",
+    "neo3-dapi": "^1.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { ExplainComponent } from './components/explain/explain.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { MintComponent } from './components/mint/mint.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
+  { path: 'mint', component: MintComponent},
   { path: 'explain', component: ExplainComponent},
   { path: '**', component: HomeComponent }
 ];

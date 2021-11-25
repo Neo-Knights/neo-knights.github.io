@@ -1,0 +1,7 @@
+<div>
+    <div class="absolute" *ngIf="labels">
+        <a href="{{redditUrl}}" target="_blank" class="inline-block bg-gray-200 hover:bg-gray-300 p-1 font-black">Reddit</a>
+        <a href="{{gmUrl}}" target="_blank" class="inline-block bg-gray-200 hover:bg-gray-300 p-1 font-black">GM</a>
+    </div>
+    <img class="w-full" [src]="domSrv.bypassSecurityTrustUrl(knight[1].value)" [ngClass]="{'glow2': glow}"/>
+</div>
