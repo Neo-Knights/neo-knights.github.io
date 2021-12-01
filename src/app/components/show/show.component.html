@@ -1,0 +1,27 @@
+<div *ngIf="knightExists; else offline" class="flex flex-wrap mt-16 md:container">
+    <div class="w-full md:max-w-1/2">
+        <p  class="lead2 font-black text-5xl tracking-wide uppercase leading-snug md:leading-relaxed md:text-7xl md:text-right md:mr-8">{{knightExists[0].value}}</p>
+   </div>
+    <div class="w-full md:max-w-1/2 ">
+        <div *ngIf="attributes" class="lead1 w-full flex flex-wrap space-x-1 shadow-md divide-x p-2">
+            <div *ngFor="let attr of attributes | keyvalue" class="min-w-full mt-2 md:min-w-1/4 md:mt-0 pl-2 text-md text-left">
+                <div class="font-black tracking-wide">
+                    {{attr.value.key}}
+                </div>
+                <div *ngIf="attr.value.key == 'strength'" class="flex text-black text-sm tracking-wide">
+                    <div>{{attr.value.value}}</div>
+                </div>
+                <div *ngIf="attr.value.key == 'posted' || attr.value.key == 'minted' " class="flex text-black text-sm tracking-wide">
+                    <div>{{attr.value.value | date}}</div>
+                </div>
+           </div>
+        </div>
+    </div>
+    <div class="w-full md:w-2/4 md:mx-auto mt-8 md:mt-16 pb-2">
+        <app-knight *ngIf="knightExists; else offline" class="mt-2" [knight]="knightExists" [labels]="true"></app-knight>
+    </div>
+</div>
+
+<ng-template #offline>
+    <div class="tracking-wide uppercase text-xs mt-2">{{validateResultText}}</div>
+</ng-template>

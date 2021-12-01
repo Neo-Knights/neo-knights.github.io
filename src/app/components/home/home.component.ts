@@ -38,24 +38,17 @@ export class HomeComponent implements OnInit {
       this.blockchainService.getKnight(tokenId)
         .then((data) => {
           this.knights.push(data);
-          //this.knights.sort((a,b) => b[3].value - a[3].value);
-          //ToDo: Show numbers > 0 with more than 3 dec places as "< 0.001" 
         });
     });
   }
   async getEntries()
   {
-    console.log("entries");
     this.entries = this.blockchainService.getEntries();
     this.entryKnights = new Map();
     (await this.entries).forEach((tokenId) => {
       this.blockchainService.getKnight(tokenId)
         .then((data) => {
           this.entryKnights.set(atob(tokenId), data);
-          //this.topTen.push(data);
-          //this.knights.sort((a,b) => b[3].value - a[3].value);
-          //ToDo: Show numbers > 0 with more than 3 dec places as "< 0.001" 
-          console.log(this.topTen);
         });
     });
   }
@@ -66,10 +59,6 @@ export class HomeComponent implements OnInit {
       this.blockchainService.getKnight(tokenId)
         .then((data) => {
           this.topTen.set(atob(tokenId), data);
-          //this.topTen.push(data);
-          //this.knights.sort((a,b) => b[3].value - a[3].value);
-          //ToDo: Show numbers > 0 with more than 3 dec places as "< 0.001" 
-          console.log(this.topTen);
         });
     });
   }

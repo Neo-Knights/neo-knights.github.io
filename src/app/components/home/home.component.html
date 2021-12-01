@@ -1,53 +1,25 @@
-
 <div class="flex flex-wrap mt-16 md:container">
     <div class="w-full md:max-w-1/2">
         <p class="font-black text-5xl tracking-wide uppercase leading-snug md:leading-relaxed md:text-7xl md:text-right md:mr-8">Meet the NEO community</p>
         <p class="lead2 shadow font-black text-md tracking-wide mt-2 p-2 text-black leading-relaxed text-right ml-2 md:text-left">Create unique <span class="text-xl">NFTs</span> based on reddit posts from outstanding contributors</p>
-        <p class="lead1 font-black text-md tracking-wide p-2 mr-2 leading-relaxed text-left md:text-right">Be lucky and enter the fully automated <span class="text-xl">raffle*</span> by minting a special neo knight</p>
+        <p class="lead1 font-black text-md tracking-wide p-2 mr-2 leading-relaxed text-left md:text-right">Be lucky and enter the fully automated <span class="text-xl">raffle</span> by minting a special neo knight</p>
     </div>
-    <div class="mt-4 w-full md:max-w-1/2">
-        <p class="lead2 font-black mb-4 shadow-md text-5xl tracking-wide p-2 text-left">$-</p>
-        <div class="lead1 w-full flex flex-wrap shadow-md md:divide-x p-2">
-            <div class="min-w-1/2 md:min-w-1/4">
-                <p *ngIf="neoB; else offline" class="text-4xl tracking-wide text-black"><span>{{neoB}}</span></p>
-                <p class=" font-black text-4xl tracking-wide">NEO</p>
-            </div>
-            <div class="min-w-1/2 md:min-w-1/4">
-                <p *ngIf="gasB; else offline" class="text-4xl tracking-wide text-black"><span>{{gasB}}</span></p>
-                <p class="font-black text-4xl tracking-wide">GAS</p>
-            </div>
-            <div class="min-w-full mt-2 md:min-w-1/4 md:mt-0 pl-2 text-md text-left">
-                <div *ngIf="lastWinner" class="flex lead1 items-center">
-                    <div class="font-black tracking-wide">
-                        Last payout
-                    </div>
-                    <div class="flex text-black text-sm tracking-wide" *ngIf="lastWinner[0].value != ''; else never">
-                        <div class="pl-2">{{lastWinner[1].value[0].key}}<span class="text-lg pl-1">{{lastWinner[1].value[0].value}}</span></div>
-                        <div class="pl-2">{{lastWinner[1].value[1].key}}<span class="text-lg pl-1">{{lastWinner[1].value[1].value}}</span></div>
-                    </div>
-                </div>
-                <p class=""><span class="font-black tracking-wide">Entries</span><span class="text-lg text-black pl-1">({{entryKnights.size}}/10)</span></p>
-            </div>
-        </div>
-        <div *ngIf="entryKnights.size > 0; else offline" class="lead3 w-full text-left p-2 pb-4 mt-1 shadow-md grid grid-flow-row auto-rows-min  grid-cols-5 gap-2">
-            <app-knight class="inline-block " *ngFor="let knight of entryKnights | keyvalue" [knight]="knight.value" ></app-knight>
-        </div>
+    <div class="mt-4 w-full md:max-w-1/2 ">
+        <img  class="opacity-40 max-w-1/2 mx-auto" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9Jy01IC01IDE1NSAxODAnIHN0eWxlPSdiYWNrZ3JvdW5kLWNvbG9yOiMyNDI0MjQnPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuYiB7CiAgICAgICAgbWl4LWJsZW5kLW1vZGU6IG11bHRpcGx5CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIHN0eWxlPSdpc29sYXRpb246aXNvbGF0ZSc+CiAgICA8ZyBpZD0nNCcgZGF0YS1uYW1lPSc0Jz4KICAgICAgPHBhdGggZmlsbD0nIzYwNmY3YicgZD0nTTMyLjI0IDYxLjc2djgwLjNsNTIuMiAxOC43di04MWw1Ni4zLTIwLjctNTEuMS0xOC4zLTU3LjQgMjF6JyAvPgogICAgICA8cGF0aCBmaWxsPScjM2Q0ODUyJyBkPSdNODguNjQgODIuNzZ2NDMuM2w1Mi4xIDE4LjZ2LTgxLjJsLTUyLjEgMTkuM3onIC8+CiAgICAgIDxwYXRoIGZpbGw9JyMzZDQ4NTInCiAgICAgICAgZD0nTTgyLjkzIDQ2LjU4TDU0IDM1LjEzbC0uODggMzEuMTQtMzMuMzkgMi44Nkw1MiAxMDQuNDhsNjEuMDctNDAuMjdhNy42IDcuNiAwIDAwMi43NC05LjQ4TDk4LjcgMTcuMDZ6JwogICAgICAgIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0xOS43MyAtMTcuMDYpJyAvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+" />
     </div>
     <div class="w-full text-center pt-4">
         <div class="lead2 m-auto md:max-w-1/4 shadow font-black tracking-wide p-1 uppercase">
             <a href="mint">Mint now</a> 
         </div>
     </div>
-    <div class="lead1 w-full mt-8 md:mt-16">
-            <div class="lead1 text-4xl md:text-6xl shadow md:text-middle font-black tracking-wide p-2 uppercase">
-                Top contributors
-            </div>
-            <div class="md:grid md:grid-flow-row md:grid-cols-3 md:gap-4 m-2" *ngIf="topTen; else offline">
-                <app-knight class="mt-2" *ngFor="let knight of topTen | keyvalue" [knight]="knight.value" [tokenId]="knight.key" [labels]="true"></app-knight>
-            </div>
-        
+    <div class="lead1 w-full divide-y mt-8 md:mt-16 pb-2">
+        <div class="lead1 text-4xl md:text-6xl md:text-middle font-black tracking-wide p-2 uppercase">
+            Top contributors
+        </div>
+        <div class="md:grid md:grid-flow-row md:grid-cols-3 md:gap-4 mx-2" *ngIf="topTen; else offline">
+            <app-knight class="md:mt-2 md:mx-0 mx-1" *ngFor="let knight of topTen | keyvalue" [knight]="knight.value" [tokenId]="knight.key" [labels]="true" [fs]="true"></app-knight>
+        </div>
     </div>
-
 </div>
 <ng-template #offline>
     <div class="tracking-wide uppercase text-xs mt-2">loading</div>
@@ -55,5 +27,3 @@
 <ng-template #never>
     <div class="text-xs pl-2">never</div>
 </ng-template>
-
-

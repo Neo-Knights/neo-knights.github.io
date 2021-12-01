@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GAS, MintState } from 'src/app/interfaces/blockchain';
 import { NeoLineN3Init, NeoLineN3Interface, NeoAccount } from 'src/app/interfaces/neoline';
 import { BlockchainService } from 'src/app/services/blockchain.service';
 
@@ -15,8 +16,13 @@ export class MintComponent implements OnInit {
   redditId: string = "";
   redditUrl: string = "";
   knightExists: Map<string,any> = null;
+  knightMinted: Map<string,any> = null;
+  showMinted: Boolean = false;
   validateResult: boolean = false;
   validateResultText: string = "";
+  mintState: MintState = MintState.NONE;
+  mintResult: any = null;
+  tokenId: string;
 
   urlPattern: string = "(^https?://)?(.+)?\.?(reddit\.com/|redd\.it/)(r/.+/)(comments/)((.{6}/.+)|(.{6}$)|(.{6}/$))";
   constructor(private formBuilder: FormBuilder, private blockchainService: BlockchainService) { 
@@ -64,10 +70,28 @@ export class MintComponent implements OnInit {
     }
     return this.urlForm.controls;
   }
+  public showMint()
+  {
+    if(!this.showMinted)
+    {
+      this.showMinted = true;
+    }
+  }
+  public newMint()
+  {
+    this.mintState = MintState.NONE;
+    this.showMinted = false;
+    this.knightMinted = null;
+    this.mintResult = null;
+  }
+  public retry()
+  {
+    this.trackMint(this.tokenId, this.mintResult.txid);
+  }
   async connect(){
-    (await this.neolineN3).getAccount().then((data) => {
+    (await this.neolineN3).getAccount()?.then((data) => {
       if(data != undefined)
-      {
+      {        
         if(data.address.startsWith("A"))
         {
           console.log("Change to N3 wallet and connect again..");
@@ -84,7 +108,6 @@ export class MintComponent implements OnInit {
     .then((data) => {
       if(data != null)
       {
-        console.log(data);
         this.knightExists = data;
         this.validateResult = false;
         this.validateResultText = "Already minted";
@@ -96,7 +119,43 @@ export class MintComponent implements OnInit {
       }
     });
   }
-  async catchMint(){
+  async trackMint(tokenId: string, txId: string){
+    this.mintState = MintState.NEW;
+    await this.delay(7000);
+    var retries = 5;
+    var count = 0;
+    while(this.mintState == MintState.NEW)
+    { 
+      try {
+        this.mintState = await this.blockchainService.trackMint(txId, this.mintState);
+      } catch (error) {
+        this.mintState == MintState.FAILED;
+      }     
+      
+      count++;
+      if(count > retries)
+      {
+        this.mintState = MintState.FAILED;
+      }
+      await this.delay(7000);
+    }
+    retries = 20;
+    while(this.mintState == MintState.TRANSFERRED)
+    {
+      this.knightMinted = await this.blockchainService.getKnight(btoa(tokenId));
+      if(this.knightMinted != null){
+        this.mintState = MintState.MINTED;
+      }
+      count++;
+      if(count > retries)
+      {
+        this.mintState = MintState.FAILED;
+      }
+      await this.delay(7000);
+    }
+  }
+  delay(ms: number) {
+    return new Promise (resolve => setTimeout(resolve, ms));
   }
   async mint(data){
     if(data)
@@ -104,12 +163,20 @@ export class MintComponent implements OnInit {
       var scriptHash = this.blockchainService.getScriptHash();
       var account = this.blockchainService.getScriptHashFromAddress(this.account.address);
       (await this.neolineN3).invoke({
-        scriptHash: scriptHash,
-        operation: 'mint',
+        scriptHash: GAS,
+        operation: 'transfer',
         args: [
           {
-            type: "Address",
-            value: this.account.address,          
+            type: "Hash160",
+            value: account,          
+          },
+          {
+            type: "Hash160",
+            value: scriptHash,          
+          },
+          {
+            type: "Integer",
+            value: "5000000"
           },
           {
             type: "String",
@@ -125,6 +192,9 @@ export class MintComponent implements OnInit {
         ]
       })
       .then(result => {
+        this.mintResult = result;
+        this.tokenId = data;
+        this.trackMint(this.tokenId, result.txid);
         console.log('Invoke transaction success!');
         console.log('Result: ' + JSON.stringify(result));
         console.log('Transaction ID: ' + result.txid);
@@ -133,7 +203,9 @@ export class MintComponent implements OnInit {
       })
       .catch((error) => {
         const {type, description, data} = error;
+        console.error(error);
         switch(type) {
+          
             case 'NO_PROVIDER':
                 console.log('No provider available.');
                 break;

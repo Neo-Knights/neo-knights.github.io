@@ -18,6 +18,12 @@ type NeoAccount = {
   label: string;
 };
 
+type NeoNetwork = {
+  chainId: number,
+  networks: string[],
+  defaultNetwork: string
+}
+
 type Signers = {
   signers: Signer[];
 };
@@ -34,8 +40,7 @@ type GetBalanceArgs = { address: string; contracts: string[] };
  */
 interface NeoLineN3Interface {
   getAccount(): Promise<NeoAccount>;
-  getProvider(): Promise<any>;  
-
+  getProvider(): Promise<any>;
   getBalance(
     params: GetBalanceArgs[]
   ): Promise<{

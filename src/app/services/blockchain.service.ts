@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BlockchainInterface } from '../interfaces/blockchain';
+import { BlockchainInterface, CONTRACT_HASH, GAS, MintState, NEO } from '../interfaces/blockchain';
 
 declare var require: any;
 const Neon = require("@cityofzion/neon-js");
@@ -13,31 +13,42 @@ export class BlockchainService implements BlockchainInterface{
   knight: any;
   topTen: any;
   lastWinner: any;
-  scriptHash: string;
-  gas: string = "0xd2a4cff31913016155e38e474a2c06d08be276cf";
-  neo: string = "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5";
+
   rpc = Neon.rpc;
   sc = Neon.sc;
   wallet = Neon.wallet;
-  //ToDo: Load balancing of rpc nodes
-  rpcClient1 = new Neon.rpc.RPCClient("http://127.0.0.1:50012");
-  //rpcClient1 = new Neon.rpc.RPCClient("https://testnet1.neo.coz.io:443");
-  //balancer =  api.ApiBalancer(this.rpcClient1, this.rpcClient2);
-  constructor() {
-    this.scriptHash = "0x946ca3a2b10014a1e35646a8e1889e36eae0d90f";    
-    //this.scriptHash = "0x12f8d0d32b237ece13593062883fc28e2cbb799b"; //testnet
-   }
+  //rpcClient1 = new Neon.rpc.RPCClient("http://127.0.0.1:50012");
+  //rpcClient2 = new Neon.rpc.RPCClient("http://127.0.0.1:50012");
+  rpcClient1 = new Neon.rpc.RPCClient("https://testnet1.neo.coz.io:443");
+  rpcClient2 = new Neon.rpc.RPCClient("https://testnet2.neo.coz.io:443");
+  
+  constructor() { }
+
   getScriptHash(){
-    return this.scriptHash;
+    return CONTRACT_HASH;
   }
   getScriptHashFromAddress(address: string){
     return Neon.wallet.getScriptHashFromAddress(address);
   }
+  async trackMint(str: string, state: MintState)
+  {
+    var mintState = state;
+    if(mintState == MintState.NEW)
+    {
+      var client = this.getRandomClient();
+      var tx = await client.getRawTransaction(str,1);
+      if(tx.confirmations >= 1)
+        mintState = MintState.TRANSFERRED;
+    }
+
+    return mintState;
+  }
   async getNeoGasBalance(){
-    var contractParam = this.sc.ContractParam.hash160(this.scriptHash);
+    var contractParam = this.sc.ContractParam.hash160(CONTRACT_HASH);
     var params = [contractParam];
-    var gasB = await this.rpcClient1.invokeFunction(this.gas,"balanceOf", params);
-    var neoB = await this.rpcClient1.invokeFunction(this.neo,"balanceOf", params);
+    var client = this.getRandomClient();
+    var gasB = await client.invokeFunction(GAS,"balanceOf", params);
+    var neoB = await client.invokeFunction(NEO,"balanceOf", params);
     var balance: Map<string, number> = new Map();
     (await balance).set("gas", gasB.stack.map((i) => {
       return i.value / Math.pow(10, 8);
@@ -48,32 +59,32 @@ export class BlockchainService implements BlockchainInterface{
     return balance;
   }
   async getAllKnights(){
-    var result = await this.rpcClient1.invokeFunction(this.scriptHash,"tokens");
+    var client = this.getRandomClient();
+    var result = await client.invokeFunction(CONTRACT_HASH,"tokens");
     var tokens = result.stack[0].iterator.map((i) => {
       return i.value;
     });
-    //console.log(tokens);
     return tokens;
   }
   async getTopTen(){
-    var result = await this.rpcClient1.invokeFunction(this.scriptHash,"topTen");
+    var client = this.getRandomClient();
+    var result = await client.invokeFunction(CONTRACT_HASH,"topTen");
     var topTen = result.stack[0].iterator.map((i) => {
       return i.value;
     });
-    //console.log("top ten");
-    //console.log(topTen);
     return topTen;
   }
   async getEntries(){
-    var result = await this.rpcClient1.invokeFunction(this.scriptHash,"entries");
-    var entries = result.stack[0].iterator.map((i) => {
+    var client = this.getRandomClient();
+    var result = await client.invokeFunction(CONTRACT_HASH,"entries");
+    var entries = result.stack[0]?.iterator.map((i) => {
       return i.value;
     });
-    //console.log(entries);
     return entries;
   }
   async getLastWinner(){
-    var result = await this.rpcClient1.invokeFunction(this.scriptHash,"lastWinner");
+    var client = this.getRandomClient();
+    var result = await client.invokeFunction(CONTRACT_HASH,"lastWinner");
     if(result.state == "FAULT")
     {
       return null;
@@ -82,12 +93,10 @@ export class BlockchainService implements BlockchainInterface{
     this.lastWinner = result.stack[0].value.map((i) => {
       var value = "";
       var key = "";
-      //console.log(i);
       if(i["type"] == "ByteString")
       {
         value = atob(i.value);
         key = "tokenId";
-        //console.log(value);
       }
       else if (i["type"] == "Map"){
         key = "payout";
@@ -103,15 +112,14 @@ export class BlockchainService implements BlockchainInterface{
       }  
       return { key: key, value: value};
     });
-    console.log("last win");
-    console.log(this.lastWinner);
     return this.lastWinner;
   }
   
   async getKnight(tokenId: string){
     var contractParam = this.sc.ContractParam.byteArray(tokenId);
     var params = [contractParam];
-    var result = await this.rpcClient1.invokeFunction(this.scriptHash,"properties", params);
+    var client = this.getRandomClient();
+    var result = await client.invokeFunction(CONTRACT_HASH,"properties", params);
     if(result.state == "FAULT")
     {
       return null;
@@ -125,7 +133,9 @@ export class BlockchainService implements BlockchainInterface{
       }
       return { key: key, value: value};
     });
-    //console.log(this.knight);
     return this.knight;
+  }
+  private getRandomClient(){
+    return Math.round(Math.random()*100) % 2 == 0 ? this.rpcClient1 : this.rpcClient2;
   }
 }
